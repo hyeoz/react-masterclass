@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { coinInfoFetcher, coinTickersFetcher } from "../api";
 import Chart from "./Chart";
+import Navigator from "./Navigator";
 import Price from "./Price";
 
 // styled components
@@ -187,6 +188,8 @@ const Coin = () => {
         </Title>{" "}
         {/* info?. 문법으로 undefined 이거나 없는 경우 보호 */}
       </Header>
+      <Navigator />
+
       {loading ? (
         <Loader>Loading...</Loader>
       ) : (
@@ -223,10 +226,10 @@ const Coin = () => {
 
           <Tabs>
             <Tab isActive={priceMatch !== null}>
-              <Link to={`/${coinId}/price`}>Go to Price</Link>
+              <Link to={`/${coinId}/price`}>Price</Link>
             </Tab>
             <Tab isActive={chartMatch !== null}>
-              <Link to={`/${coinId}/chart`}>Go to Chart</Link>
+              <Link to={`/${coinId}/chart`}>Chart</Link>
             </Tab>
           </Tabs>
 

@@ -28,38 +28,93 @@ const Chart = () => {
       ) : (
         /* 자세한 옵션은 공식 문서 참고 
         https://apexcharts.com/docs/options */
+        // <ApexChart
+        //   type="line"
+        //   options={{
+        //     theme: { mode: "dark" },
+        // chart: {
+        //   height: 300,
+        //   width: 500,
+        //   toolbar: { show: false },
+        //   background: "transparent",
+        // },
+        //     stroke: { curve: "smooth", width: 4 },
+        //     grid: { show: false },
+        //     yaxis: { show: false },
+        //     xaxis: {
+        //       labels: { show: false },
+        //       axisTicks: { show: false },
+        //       categories: data?.map((time) => time.time_close),
+        //       type: "datetime",
+        //     },
+        //     fill: {
+        //       type: "gradient",
+        //       gradient: { gradientToColors: ["blue"], stops: [0, 100] },
+        //     },
+        // colors: ["red"],
+        // tooltip: { y: { formatter: (value) => `$ ${value.toFixed(3)}` } },
+        //   }}
+        //   series={[
+        //     {
+        //       name: "price",
+        //       data: data?.map((price) => price.close),
+        //     },
+        //   ]}
+        // />
         <ApexChart
-          type="line"
+          type="candlestick"
+          series={[
+            {
+              data: data?.map((price) => {
+                return {
+                  x: price.time_close,
+                  y: [price.open, price.high, price.low, price.close],
+                };
+              }),
+            },
+          ]}
           options={{
-            theme: { mode: "dark" },
             chart: {
-              height: 300,
+              height: 200,
               width: 500,
               toolbar: { show: false },
               background: "transparent",
             },
-            stroke: { curve: "smooth", width: 4 },
+            plotOptions: {
+              bar: {
+                columnWidth: "120%",
+              },
+            },
             grid: { show: false },
             yaxis: { show: false },
             xaxis: {
+              type: "datetime",
               labels: { show: false },
               axisTicks: { show: false },
-              categories: data?.map((time) => time.time_close),
-              type: "datetime",
             },
-            fill: {
-              type: "gradient",
-              gradient: { gradientToColors: ["blue"], stops: [0, 100] },
+            tooltip: {
+              theme: "dark",
+              custom: ({ dataPointIndex, w }) => {
+                // console.log(w.globals);
+                return (
+                  '<div class="apexcharts-tooltip-candlestick">' +
+                  '<div>Open: $<span class="value">' +
+                  w.globals.seriesCandleO[0][dataPointIndex].toFixed(3) +
+                  "</span></div>" +
+                  '<div>High: $<span class="value">' +
+                  w.globals.seriesCandleH[0][dataPointIndex].toFixed(3) +
+                  "</span></div>" +
+                  '<div>Low: $<span class="value">' +
+                  w.globals.seriesCandleL[0][dataPointIndex].toFixed(3) +
+                  "</span></div>" +
+                  '<div>Close: $<span class="value">' +
+                  w.globals.seriesCandleC[0][dataPointIndex].toFixed(3) +
+                  "</span></div>" +
+                  "</div>"
+                );
+              },
             },
-            colors: ["red"],
-            tooltip: { y: { formatter: (value) => `$ ${value.toFixed(3)}` } },
           }}
-          series={[
-            {
-              name: "price",
-              data: data?.map((price) => price.close),
-            },
-          ]}
         />
       )}
     </div>

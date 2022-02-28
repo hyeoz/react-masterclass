@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
@@ -82,10 +82,10 @@ const Coins = () => {
   return (
     <Container>
       <Helmet>
-        <title>코인</title>
+        <title>Coins</title>
       </Helmet>
       <Header>
-        <Title>코인</Title>
+        <Title>THE COINS</Title>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
