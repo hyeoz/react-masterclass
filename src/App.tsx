@@ -1,10 +1,5 @@
-import Router from "./Router";
-import { createGlobalStyle, ThemeProvider } from "styled-components";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { darkTheme, lightTheme } from "./theme";
-import { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { isDarkAtom } from "./atoms";
+import { createGlobalStyle } from "styled-components";
+import ToDoList from "./ToDoList";
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -72,22 +67,10 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-  // global state
-  // const [isDark, setIsDart] = useState(false);
-  // const toggleDark = () => {
-  //   setIsDart((current) => !current); // setState 함수 작성법 -> 값을 그대로 넣거나 콜백함수로
-  // };
-
-  // Recoil 사용
-  const isDark = useRecoilValue(isDarkAtom);
-
   return (
     <>
-      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-        <GlobalStyle />
-        <Router />
-        <ReactQueryDevtools initialIsOpen={true} />
-      </ThemeProvider>
+      <GlobalStyle />
+      <ToDoList />
     </>
   );
 }
