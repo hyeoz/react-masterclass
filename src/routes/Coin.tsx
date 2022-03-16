@@ -134,8 +134,10 @@ interface PriceData {
   };
 }
 
+interface CoinProps {}
+
 // Components
-const Coin = () => {
+const Coin = ({}: CoinProps) => {
   const { coinId } = useParams<{ coinId: string }>();
   const { state } = useLocation() as RouteState; // @6부터 <RouteState> 지원 안함
   // console.log(name);

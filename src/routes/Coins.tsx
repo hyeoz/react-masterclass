@@ -2,8 +2,10 @@
 import { Helmet } from "react-helmet";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { coinsFetcher } from "../api";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -19,7 +21,7 @@ const Header = styled.header`
 const CoinsList = styled.ul``;
 const Coin = styled.li`
   background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
   margin-bottom: 10px;
   padding: 20px;
   border-radius: 15px;
@@ -58,8 +60,11 @@ interface CoinInterface {
   is_active: boolean;
   type: string;
 }
+interface CoinsProps {
+  // toggleDark: () => void; // App 에서 함수 확인하면 나오는 type 넣어주기
+}
 
-const Coins = () => {
+const Coins = ({}: CoinsProps) => {
   // const [coins, setCoins] = useState<CoinInterface[]>([]);
   // const [loading, setLoading] = useState(true);
 
@@ -78,6 +83,9 @@ const Coins = () => {
     "allCoins",
     coinsFetcher
   ); // useQuery(uniquename, fetcher function) = {isLoading, data}
+  // recoil 상태 변경
+  const setIsDarkAtom = useSetRecoilState(isDarkAtom); // 함수를 반환. react 의 setState 와 같음
+  const toggleIsDark = () => setIsDarkAtom((prev) => !prev);
 
   return (
     <Container>
@@ -86,6 +94,7 @@ const Coins = () => {
       </Helmet>
       <Header>
         <Title>THE COINS</Title>
+        <button onClick={toggleIsDark}>Toggle Mode</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>

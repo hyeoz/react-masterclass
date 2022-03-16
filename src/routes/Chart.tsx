@@ -2,6 +2,8 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router";
 import { coinHistoryFetcher } from "../api";
 import ApexChart from "react-apexcharts";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 interface HistoricalDataInterface {
   time_open: string;
@@ -14,13 +16,17 @@ interface HistoricalDataInterface {
   market_cap: number;
 }
 
-const Chart = () => {
+interface ChartProps {}
+
+const Chart = ({}: ChartProps) => {
   const { coinId } = useParams<{ coinId: string }>();
   // console.log(coinId);
   const { isLoading, data } = useQuery<HistoricalDataInterface[]>(
     ["ohlcv", coinId],
     () => coinHistoryFetcher(coinId ? coinId : "")
   );
+  const isDark = useRecoilValue(isDarkAtom);
+
   return (
     <div>
       {isLoading ? (
@@ -93,7 +99,7 @@ const Chart = () => {
               axisTicks: { show: false },
             },
             tooltip: {
-              theme: "dark",
+              theme: isDark ? "dark" : "light",
               custom: ({ dataPointIndex, w }) => {
                 // console.log(w.globals);
                 return (
