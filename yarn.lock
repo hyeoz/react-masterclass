@@ -7268,6 +7268,11 @@ react-is@^17.0.1:
   resolved "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-localstorage-hook@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/react-localstorage-hook/-/react-localstorage-hook-0.1.0.tgz#b272205ea464c8dce9493f89daddd33140945e40"
+  integrity sha512-gyMW2nVl/ybXNHfFGQkBMK7b86vzDdUz9cBCQJMEMQjAA7HYyq+4siS7v9DcAAsGBTUlErrjlplvFmLYcIBmYw==
+
 react-query@^3.34.16:
   version "3.34.16"
   resolved "https://registry.npmjs.org/react-query/-/react-query-3.34.16.tgz"

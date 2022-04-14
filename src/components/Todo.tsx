@@ -6,8 +6,8 @@ const Todo = ({ text, category, id }: ITodo) => {
   const setTodos = useSetRecoilState(todoState);
   // interface 중 하나 지정
   // const onClick = (cat: ITodo["category"]) => {
-  // event interface 지정해줄 때
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    // event interface 지정해줄 때
     // console.log("new category", event.currentTarget.name);
     const {
       currentTarget: { name },
@@ -18,6 +18,11 @@ const Todo = ({ text, category, id }: ITodo) => {
       const newTodo = { text, id, category: name as any }; // interface error 없애기 위해
       // console.log(oldTodo, newTodo, "old & new");
 
+      // 클릭시 local storage 도 수정되도록 기능 구현
+      localStorage.removeItem(newTodo.id.toString());
+      localStorage.setItem(newTodo.id.toString(), JSON.stringify(newTodo));
+      // setValues(JSON.stringify(newTodo));
+
       return [
         ...old.slice(0, targetIndex),
         newTodo,
@@ -25,10 +30,21 @@ const Todo = ({ text, category, id }: ITodo) => {
       ];
     });
   };
+  const onClickDelete = () => {
+    setTodos((old) => {
+      const targetIndex = old.findIndex((t) => t.id === id);
+      const todo = { text, id, category };
+
+      // 클릭시 삭제되는 기능 구현
+      // setValues("");
+      localStorage.removeItem(todo.id.toString());
+      return [...old.slice(0, targetIndex), ...old.slice(targetIndex + 1)];
+    });
+  };
 
   return (
     <li>
-      <span>{text}</span>
+      <span onClick={onClickDelete}>{text}</span>
       {category !== Categories.DOING && (
         <button name={Categories.DOING} onClick={onClick}>
           Doing
