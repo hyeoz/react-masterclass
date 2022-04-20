@@ -1,34 +1,40 @@
-import React from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { hourSelector, minuteState } from "./atoms";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
-function App() {
-  const [minutes, setMinutes] = useRecoilState(minuteState);
-  const [hours, setHours] = useRecoilState(hourSelector); // selector 로 useRecoilState 를 받으면 배열 안에 get 함수, set 함수를 받아옴
-
-  const onMinutesChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setMinutes(+event.currentTarget.value); // 간단히 +붙여줌으로서 숫자로 바꿔줌
-  };
-  const onHoursChange = (event: React.FormEvent<HTMLInputElement>) => {
-    setHours(+event.currentTarget.value);
-  };
-
+const App = () => {
+  const onDragEnd = () => {};
   return (
-    <div>
-      <input
-        type="number"
-        placeholder="Minutes"
-        value={minutes}
-        onChange={onMinutesChange}
-      />
-      <input
-        type="number"
-        placeholder="Hours"
-        value={hours}
-        onChange={onHoursChange}
-      />
-    </div>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div>
+        <Droppable droppableId="one">
+          {/* Droppable, Draggable 의 children 은 함수형태여야 함! */}
+          {/* provided / magic 등으로 불림 */}
+          {/* drag and drop 사용할 때 필용한 props 를 다 적을 필요 없이 설정할 수 있도록 해줌 */}
+          {(magic) => {
+            return (
+              <ul {...magic.droppableProps} ref={magic.innerRef}>
+                <Draggable draggableId="first" index={0}>
+                  {(provided) => (
+                    <li {...provided.draggableProps} ref={provided.innerRef}>
+                      <span {...provided.dragHandleProps}>🔥</span>
+                      first
+                    </li>
+                  )}
+                </Draggable>
+                <Draggable draggableId="second" index={1}>
+                  {(provided) => (
+                    <li {...provided.draggableProps} ref={provided.innerRef}>
+                      <span {...provided.dragHandleProps}>🔥</span>
+                      second
+                    </li>
+                  )}
+                </Draggable>
+              </ul>
+            );
+          }}
+        </Droppable>
+      </div>
+    </DragDropContext>
   );
-}
+};
 
 export default App;
